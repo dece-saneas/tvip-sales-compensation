@@ -17,6 +17,10 @@
 - Generate Key with command ` php artisan key:generate `
 - Setup your database inside ` .env ` file
 
+## Packages
+
+- [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
