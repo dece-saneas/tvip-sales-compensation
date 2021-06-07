@@ -16,10 +16,13 @@
 - Create .env file with command ` cp .env.example .env `
 - Generate Key with command ` php artisan key:generate `
 - Setup your database inside ` .env ` file
+- Run ` php artisan migrate `
+- Create Super Admin ` php artisan db:seed `
 
 ## Packages
 
 - [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
+- [intervention/image](https://github.com/Intervention/image)
 
 ## License
 
