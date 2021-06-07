@@ -19,5 +19,5 @@ Route::prefix('super-admin')->group(function () {
     Route::resource('permissions','Core\PermissionController', ['as' => 'core'])->except(['show']);
 });
 
-Route::get('/dashboard', 'DashoardController@index')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('/', 'HomeController@index')->name('home');
