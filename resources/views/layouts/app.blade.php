@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/fontawesome.min.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -55,6 +56,18 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @role('Super Admin')
+                                    <a class="dropdown-item" href="{{ route('core.users.index') }}">
+                                        {{ __('Users') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('core.roles.index') }}">
+                                        {{ __('Roles') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('core.permissions.index') }}">
+                                        {{ __('Permissions') }}
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    @endrole
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
