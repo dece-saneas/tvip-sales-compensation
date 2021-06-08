@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class UsersTableSeeder extends Seeder
 {
@@ -13,12 +14,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-        	'name' => 'Super Admin',
-        	'email' => 'superadmin@aveasgroup.com',
-        	'password' => Hash::make('12345678'),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+        $user = User::create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@aveasgroup.com',
+            'password' => Hash::make(12345678),
         ]);
+		
+		$user->assignRole('Super Admin');
     }
 }
