@@ -14,12 +14,44 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $user1 = User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@aveasgroup.com',
             'password' => Hash::make(12345678),
         ]);
 		
-		$user->assignRole('Super Admin');
+		$user1->assignRole('Super Admin');
+		
+        $user2 = User::create([
+            'name' => 'Gading Pradana',
+            'email' => 'manager@tvip.com',
+            'password' => Hash::make(12345678),
+        ]);
+		
+		$user2->assignRole('Manager');
+		
+        $user3 = User::create([
+            'name' => 'Yoga Wibisono',
+            'email' => 'admingudang@tvip.com',
+            'password' => Hash::make(12345678),
+        ]);
+		
+		$user3->assignRole('Admin Gudang');
+		
+        $user4 = User::create([
+            'name' => 'Puji Novitasari',
+            'email' => 'admincro@tvip.com',
+            'password' => Hash::make(12345678),
+        ]);
+		
+		$user4->assignRole('Admin CRO');
+		
+        $user5 = User::create([
+            'name' => 'Rika Melani',
+            'email' => 'customer@tvip.com',
+            'password' => Hash::make(12345678),
+        ]);
+		
+		$user5->assignRole('Customer');
     }
 }
