@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Image;
-use Auth;
+use Image, Auth, File;
 use App\Models\Product;
 
 class ProductsController extends Controller
@@ -24,11 +23,23 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Auth::user()->cannot('product-index')) abort(403);
         
-        $products = Product::get();
+        $filter = Product::query();
+		
+		if(!empty(request()->all())) {
+			$request = request()->all();
+			
+			if(count($request['brand']) == 4) return redirect()->route('products.index');
+			
+			if(!empty($request['brand'])){
+				$filter->whereIn('brand',$request['brand']);
+			}
+		}
+        
+        $products = $filter->get();
         
         return view('pages.products', ['products' => $products]);
     }
@@ -120,30 +131,16 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
+        $product = Product::findOrFail($id);
+		
+		if(File::exists('img/products/'.$product->photo)) {
+			File::delete('img/products/'.$product->photo);
+		}
 
-    /**
-     * Filter product.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function filter(Request $request)
-    {
-        if (Auth::user()->cannot('product-index')) abort(403);
+        $product->delete();
         
-        $filter = Product::query();
-        $q = request()->all();
-        
-        if(count($q) == 1 || count($q['brand']) == 4) return redirect()->route('products.index');
-        
-        if(!empty($q['brand'])){
-            $filter->whereIn('brand',$q['brand']);
-        }
-        
-        $products = $filter->get();
-        
-        return view('pages.products', ['products' => $products, 'brand' => $q['brand']]);
+		session()->flash('success', 'Produk berhasil di hapus !');
+		
+        return redirect()->route('products.index');
     }
 }

@@ -22,6 +22,4 @@ Route::prefix('super-admin')->group(function () {
 });
 
 Route::resource('settings','SettingsController')->except(['show']);
-
-Route::post('/products/filter', 'ProductsController@filter')->name('products.filter');
 Route::resource('products','ProductsController')->except(['show']);

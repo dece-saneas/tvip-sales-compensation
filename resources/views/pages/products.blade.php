@@ -34,30 +34,29 @@
                         <div class="card-body text-center text-muted">
                             <h6><i class="fas fa-filter mr-2"></i>FILTER</h6>
                         </div>
-                        <form method="POST" action="{{ route('products.filter') }}">
-                        @csrf
+                        <form method="GET" action="{{ route('products.index') }}">
                         <div class="card-body">
                             <span class="filter-title">Brand</span>
                             <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-aqua" value="Aqua" @if(Route::is('products.filter')) @if (in_array("Aqua",$brand)) checked @endif @endif>
+                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-aqua" value="Aqua" @if(Request::all()) @if (in_array("Aqua",Request::get('brand'))) checked @endif @endif>
                                 <label for="brand-aqua" class="filter-label">Aqua</label>
                             </div>
                             <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-vit" value="Vit" @if(Route::is('products.filter')) @if (in_array("Vit",$brand)) checked @endif @endif>
+                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-vit" value="Vit" @if(Request::all()) @if (in_array("Vit",Request::get('brand'))) checked @endif @endif>
                                 <label for="brand-vit" class="filter-label">Vit</label>
                             </div>
                             <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-mizone" value="Mizone" @if(Route::is('products.filter')) @if (in_array("Mizone",$brand)) checked @endif @endif>
+                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-mizone" value="Mizone" @if(Request::all()) @if (in_array("Mizone",Request::get('brand'))) checked @endif @endif>
                                 <label for="brand-mizone" class="filter-label">Mizone</label>
                             </div>
                             <div class="icheck-primary">
-                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-levite" value="Levite" @if(Route::is('products.filter')) @if (in_array("Levite",$brand)) checked @endif @endif>
+                                <input class="form-check-input" type="checkbox" name="brand[]" id="brand-levite" value="Levite" @if(Request::all()) @if (in_array("Levite",Request::get('brand'))) checked @endif @endif>
                                 <label for="brand-levite" class="filter-label">Levite</label>
                             </div>                     
                         </div>
                         <div class="card-body">
                             <button type="submit" class="btn btn-sm btn-block btn-primary">Apply Filter</button>
-                            @if(Route::is('products.filter'))
+                            @if(Request::all())
                             <a href="{{ route('products.index') }}" class="btn btn-sm btn-block btn-light">Clear</a>
                             @endif
                         </div>
@@ -74,12 +73,26 @@
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold">{{ $product->brand }}</h5>
                                     <p class="card-text">{{ $product->variant }}</p>
-                                    <button type="button" class="btn btn-sm btn-light">Stock<span class="badge @if($product->stock == 0) badge-danger @else badge-primary @endif ml-2 px-1">{{ $product->stock }}</span></button>
+									<form action="{{ route('products.destroy', $product->id) }}" method="POST">
+									<div class="d-flex justify-content-between">
+										<a href="javascirpt:void(0)" class="btn btn-sm btn-light">Stock<span class="badge @if($product->stock == 0) badge-danger @else badge-primary @endif ml-2 px-1">{{ $product->stock }}</span></a>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+										<button type="submit" class="btn btn-sm btn-light"><i class="fas fa-trash"></i></button>
+									</div>
+									</form>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
+					@else
+					<div class="alert alert-light alert-dismissible fade show" role="alert">
+						@if(Request::all()) Sorry we didn't find what you were looking for.
+						@else Product is empty.
+						@endif
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					</div>
                     @endif
                 </div>
             </div>
