@@ -11,6 +11,8 @@
 |
 */
 
+Route::get('/', 'DashboardController@index')->name('dashboard');
+
 Auth::routes(['reset' => false, 'verify' => false, 'confirm' => false]);
 
 Route::prefix('super-admin')->group(function () {
@@ -19,4 +21,7 @@ Route::prefix('super-admin')->group(function () {
     Route::resource('permissions','Core\PermissionController', ['as' => 'core'])->except(['show']);
 });
 
-Route::get('/', 'DashboardController@index')->name('dashboard');
+Route::resource('settings','SettingsController')->except(['show']);
+
+Route::post('/products/filter', 'ProductsController@filter')->name('products.filter');
+Route::resource('products','ProductsController')->except(['show']);

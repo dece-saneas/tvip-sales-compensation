@@ -23,6 +23,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($users as $i => $u)
+                                @if($u->name !== 'Super Admin')
                                 <tr>
                                     <th scope="row" class="align-middle text-center">{{ $i+1 }}</th>
                                     <td class="align-middle">{{ $u->name }}</td>
@@ -43,6 +44,7 @@
                                         </form>
                                     </td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>

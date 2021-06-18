@@ -20,6 +20,7 @@
                         </thead>
                         <tbody>
                             @foreach ($roles as $i => $r)
+                            @if($r->name !== 'Super Admin')
                             <tr>
                                 <th scope="row" class="align-middle text-center">{{ $i+1 }}</th>
                                 <td class="align-middle">{{ $r->name }}</td>
@@ -34,6 +35,7 @@
                                     </form>
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                     </table>

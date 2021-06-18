@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+/* Navbar */
+.nav-user-img {
+    height: 40px;
+}
+.nav-user-name, .nav-user-img {
+    margin-right: 1rem;
+}
+
+/* Fix Card Image Corner */
+.card-img-top {
+    border-radius: .25rem .25rem 0 0;
+}
+
+/* Back to Top */
+.back-to-top {
+	display: none;
+	bottom: 2.6rem;
+}
+
+/* Rewards */
+.card-reward{
+    transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    cursor: pointer;
+}
+.card-reward:hover{
+    transform: scale(1.04);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+/* Elements */
+.progress {
+    border-radius: 20px;
+}
+
+.setting-photo {
+    width: 160px;
+    height: 160px;
+}
+
+.product-photo {
+    width: 512px;
+    height: 512px;
+}
+
+.icheck-primary > .filter-label {
+    font-weight: 400 !important;
+}
+
+.filter-title {
+    font-weight: 600;
+    display: inline-block;
+    margin: 0.5em 0;
+}
+
+.pb-50 {
+    padding-bottom: 50px !important;
+}
