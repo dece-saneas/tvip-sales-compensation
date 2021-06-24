@@ -1,38 +1,42 @@
 <?php
 
-namespace App\Http\Controllers\Core;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Auth, Hash;
 use App\Models\User;
-use Hash;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     // Construct
     public function __construct()
     {
-        $this->middleware(['role:Super Admin','auth']);
-    }
-    
-    // Index
-    public function index()
-    {
-        $users = User::orderBy('name', 'asc')->paginate(10);
-        
-        return view('core.user', ['users' => $users]);
+        $this->middleware('auth');
     }
 
+    // Index
+    public function index()
+    { if (Auth::user()->cannot('user-read')) abort(403);
+     
+        $users = User::orderBy('name', 'ASC')->paginate(20);
+     
+        if(Auth::user()->hasRole('Admin CRO')) {
+            $users = User::role('Customer')->orderBy('name', 'ASC')->paginate(20);
+        }
+     
+        return view('pages.users', ['users' => $users]);
+    }
+    
     // Create
     public function create()
-    {
+    { if (Auth::user()->cannot('user-create')) abort(403);
         $roles = Role::orderBy('name', 'asc')->get();
-        
-        return view('core.user-create', ['roles' => $roles]);
+     
+        return view('pages.users-create', ['roles' => $roles]);
     }
     public function store(Request $request)
-    {
+    { if (Auth::user()->cannot('user-create')) abort(403);
         $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -48,19 +52,30 @@ class UserController extends Controller
         
         $user->assignRole($request['role']);
         
-        return redirect()->route('core.users.index');
+        session()->flash('success', 'User berhasil di tambahkan !');
+     
+        return redirect()->route('users.index');
     }
-
+    
     // Edit
     public function edit($id)
-    {
+    { if (Auth::user()->cannot('user-update')) abort(403);
         $user = User::findOrFail($id);
         $roles = Role::orderBy('name', 'asc')->get();
+
+        if($user->id == 1) abort(404);
+        if($user->id == Auth::user()->id) abort(404);
+           
+        if(Auth::user()->hasRole('Admin CRO')) {
+            if($user->hasRole(['Super Admin', 'Manager', 'Admin Gudang', 'Admin CRO'])) {
+                abort(404);
+            }
+        }
         
-        return view('core.user-edit', ['user' => $user, 'roles' => $roles]);
+        return view('pages.users-edit', ['user' => $user, 'roles' => $roles]);
     }
     public function update(Request $request, $id)
-    {
+    { if (Auth::user()->cannot('user-update')) abort(403);
         $user = User::findOrFail($id);
         
         $this->validate($request,[
@@ -83,16 +98,23 @@ class UserController extends Controller
 		$user->save();
         
         $user->syncRoles([$request->role]);
-
-        return redirect()->route('core.users.index');
+        
+        session()->flash('success', 'Data user berhasil di perbarui !');
+     
+        return redirect()->route('users.index');
     }
-
+    
     // Delete
     public function destroy($id)
-    {
+    { if (Auth::user()->cannot('user-delete')) abort(403);
         $user = User::findOrFail($id);
+     
         $user->delete();
         
-        return redirect()->route('core.users.index');
+		session()->flash('success', 'User berhasil di hapus !');
+		
+        return redirect()->route('users.index');
     }
+    
+    
 }

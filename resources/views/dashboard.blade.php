@@ -2,6 +2,34 @@
 
 @section('title') TVIP - Dashboard @endsection
 
+@section('modal')
+@can('reward-delete')
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bb-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center py-0">
+                <h4 class="modal-title mb-2"><strong>Are you sure?</strong></h4>
+                <h6 class="modal-messages m-0">Are you really want to delete these records? This process cannot be undone.</h6>
+            </div>
+            <div class="modal-body text-center">
+                <form action="javascript:void(0);" method="POST" id="DeleteForm"> 
+                    <button class="btn btn-sm btn-light mx-1 px-4" data-dismiss="modal" aria-label="Close">Cancel</button> 
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-danger mx-1 px-4">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endcan
+@endsection
+
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header -->
@@ -17,23 +45,58 @@
                 <div class="container text-center">
                     <h1 class="display-4">Dashboard</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    @can('reward-create')
+                    <a href="{{ route('rewards.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Create New</a>
+                    @endcan
                 </div>
             </div>
-            <div class="row">                
+            @can('reward-read')
+            <div class="row">  
+                @foreach($rewards as $reward)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 card-reward">
-                        <img src="{{ asset('img/rewards/1.jpg') }}" class="card-img-top" alt="Reward Image">
+                        <a href="#"><img src="{{ asset('img/rewards/'.$reward->photo) }}" class="card-img-top" alt="Reward Image"></a>
                         <div class="card-body pb-0">
-                            <h5 class="card-title mb-2"><strong>Tiket Umroh</strong></h5>
-                            <p class="card-text text-sm">Ayo perbanyak transaksi pembelian produk <strong>VIT 25ml</strong> dan dapatkan Tiket Umroh tanpa di undi.</p>
+                            <h6 class="mb-3"><strong>{{ $reward->title }}</strong></h6>
+                            <div class="row reward-content mb-2">
+                                <div class="col-1 m-auto d-flex justify-content-center">
+                                    <i class="fas fa-tag"></i>
+                                </div>
+                                <div class="col-11">
+                                    <span class="badge badge-dark px-2">{{ $reward->product->brand }}</span> <span class="badge badge-dark px-2">{{ $reward->product->variant }}</span>
+                                </div>
+                            </div>
+                            <div class="row reward-content">
+                                <div class="col-1 m-auto d-flex justify-content-center">
+                                    <i class="far fa-dot-circle"></i>
+                                </div>
+                                <div class="col-11">
+                                    <h6 class="m-0">Periode Reward</h6>
+                                    <small>{{ $reward->period_start->format('d M Y') }} - {{ $reward->period_end->format('d M Y') }}</small>
+                                </div>
+                            </div>
                         </div>
-                        @role('Customer')
-                        <div class="card-body p-0">
+                        @canany(['reward-update', 'reward-delete'])
+                        <div class="card-footer reward-footer b-0">
+                            <div class="d-flex justify-content-end">
+                                <div class="btn-group" role="group">
+                                    @can('reward-update')
+                                    <a href="{{ route('rewards.edit', $reward->id) }}" class="btn btn-sm btn-light">Edit</a>
+                                    @endcan
+                                    @can('reward-delete')
+                                    <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('rewards.destroy', $reward->id) }}"><i class="fas fa-trash"></i></button>
+                                    @endcan
+                                </div>
+                            </div>
+                        </div>
+                        @endcanany
+                        <!--
+                        <div class="card-footer p-0">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="progress-group">
                                         <span>0%</span>
-                                        <span class="float-right"><b>0</b>/5000</span>
+                                        <span class="float-right"><b>0</b>/{{ $reward->target }}</span>
                                         <div class="progress progress-xs">
                                             <div class="progress-bar bg-primary progress-bar-striped" style="width: 0%"></div>
                                         </div>
@@ -41,94 +104,15 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="card-footer">
-                            <button class="btn  btn-sm btn-light btn-block" disabled>Claim Reward</button>
+                        <div class="card-footer reward-footer">
+                            <button class="btn  btn-sm btn-success btn-block m-0">Claim Reward</button>
                         </div>
-                        @endrole
-                    </div>
-                </div>                
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 card-reward">
-                        <img src="{{ asset('img/rewards/2.jpg') }}" class="card-img-top" alt="Reward Image">
-                        <div class="card-body pb-0">
-                            <h5 class="card-title mb-2"><strong>Honda Scoopy</strong></h5>
-                            <p class="card-text text-sm">Ayo perbanyak transaksi pembelian produk <strong>AQUA 300ml</strong> dan dapatkan Honda Scoopy tanpa di undi.</p>
-                        </div>
-                        @role('Customer')
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="progress-group">
-                                        <span>20%</span>
-                                        <span class="float-right"><b>1000</b>/5000</span>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-primary progress-bar-striped" style="width: 20%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn  btn-sm btn-light btn-block" disabled>Claim Reward</button>
-                        </div>
-                        @endrole
+                        -->
                     </div>
                 </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 card-reward">
-                        <img src="{{ asset('img/rewards/3.jpg') }}" class="card-img-top" alt="Reward Image">
-                        <div class="card-body pb-0">
-                            <h5 class="card-title mb-2"><strong>Cashback 500rb</strong></h5>
-                            <p class="card-text text-sm">Ayo perbanyak transaksi pembelian produk <strong>AQUA 300ml</strong> dan dapatkan Honda Scoopy tanpa di undi.</p>
-                        </div>
-                        @role('Customer')
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="progress-group">
-                                        <span>40%</span>
-                                        <span class="float-right"><b>2000</b>/5000</span>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-primary progress-bar-striped" style="width: 40%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn  btn-sm btn-light btn-block" disabled>Claim Reward</button>
-                        </div>
-                        @endrole
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 card-reward">
-                        <img src="{{ asset('img/rewards/4.jpg') }}" class="card-img-top" alt="Reward Image">
-                        <div class="card-body pb-0">
-                            <h5 class="card-title mb-2"><strong>Cashback 500rb</strong></h5>
-                            <p class="card-text text-sm">Ayo perbanyak transaksi pembelian produk <strong>AQUA 300ml</strong> dan dapatkan Honda Scoopy tanpa di undi.</p>
-                        </div>
-                        @role('Customer')
-                        <div class="card-body p-0">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <div class="progress-group">
-                                        <span>140%</span>
-                                        <span class="float-right"><b>7000</b>/5000</span>
-                                        <div class="progress progress-xs">
-                                            <div class="progress-bar bg-primary progress-bar-striped" style="width: 140%"></div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn  btn-sm btn-success btn-block">Claim Reward</button>
-                        </div>
-                        @endrole
-                    </div>
-                </div>
+                @endforeach
             </div>
+            @endcan
         </div>
     </div>
 </div>

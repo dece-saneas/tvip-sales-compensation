@@ -21,5 +21,8 @@ Route::prefix('super-admin')->group(function () {
     Route::resource('permissions','Core\PermissionController', ['as' => 'core'])->except(['show']);
 });
 
-Route::resource('settings','SettingsController')->except(['show']);
-Route::resource('products','ProductsController')->except(['show']);
+Route::resource('settings','SettingsController')->except(['create', 'store', 'edit', 'show', 'destroy']);
+Route::resource('products','ProductsController')->except(['edit', 'update', 'show']);
+Route::resource('products/supplies','SuppliesController')->except(['show']);
+Route::resource('rewards','RewardsController')->except(['index', 'show']);
+Route::resource('users','UsersController')->except(['show']);

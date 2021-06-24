@@ -6,6 +6,34 @@
 <link rel="stylesheet" href="{{ asset('css/bootstrap-icheck.min.css') }}">
 @endsection
 
+@section('modal')
+@can('product-delete')
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bb-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center py-0">
+                <h4 class="modal-title mb-2"><strong>Are you sure?</strong></h4>
+                <h6 class="modal-messages m-0">Are you really want to delete these records? This process cannot be undone.</h6>
+            </div>
+            <div class="modal-body text-center">
+                <form action="javascript:void(0);" method="POST" id="DeleteForm"> 
+                    <button class="btn btn-sm btn-light mx-1 px-4" data-dismiss="modal" aria-label="Close">Cancel</button> 
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-danger mx-1 px-4">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endcan
+@endsection
+
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header -->
@@ -24,7 +52,12 @@
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                     @can('product-create')
                     <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Create New</a>
-                    <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Add Stock</a>
+                    @endcan
+                    @can('product-supply-create')
+                    <a href="{{ route('supplies.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Add Stock</a>
+                    @endcan
+                    @can('product-supply-read')
+                    <a href="{{ route('supplies.index') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-history mr-2"></i>History</a>
                     @endcan
                 </div>
             </div>
@@ -73,14 +106,15 @@
                                 <div class="card-body">
                                     <h5 class="card-title font-weight-bold">{{ $product->brand }}</h5>
                                     <p class="card-text">{{ $product->variant }}</p>
-									<form action="{{ route('products.destroy', $product->id) }}" method="POST">
 									<div class="d-flex justify-content-between">
-										<a href="javascirpt:void(0)" class="btn btn-sm btn-light">Stock<span class="badge @if($product->stock == 0) badge-danger @else badge-primary @endif ml-2 px-1">{{ $product->stock }}</span></a>
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-										<button type="submit" class="btn btn-sm btn-light"><i class="fas fa-trash"></i></button>
+                                        @can('product-supply-read')
+										<button class="btn btn-sm btn-light">Stock<span class="badge @if($product->stock == 0) badge-danger @else badge-primary @endif ml-2 px-1">{{$product->stock}}</span></button>
+                                        @endcan
+                                        @can('product-delete')
+                                        <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('products.destroy', $product->id) }}"><i class="fas fa-trash"></i></button>
+                                        @endcan
+                                        
 									</div>
-									</form>
                                 </div>
                             </div>
                         </div>

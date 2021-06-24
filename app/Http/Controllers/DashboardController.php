@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Reward;
 
 class DashboardController extends Controller
 {
@@ -23,6 +24,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $rewards = Reward::all();
+        
+        return view('dashboard', ['rewards' => $rewards]);
     }
 }

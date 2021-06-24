@@ -21,6 +21,9 @@
             </a>
             <div class="dropdown-menu">
                 <a href="{{ route('settings.index') }}" class="dropdown-item">Settings</a>
+                @role('Super Admin')
+                <a href="{{ route('core.users.index') }}" class="dropdown-item">Manage Users</a>
+                @endrole
                 <div class="dropdown-divider"></div>
                 <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <span>Logout</span>

@@ -8,24 +8,15 @@ use App\Models\Product;
 
 class ProductsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    // Construct
     public function __construct()
     {
         $this->middleware('auth');
     }
     
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Index
     public function index(Request $request)
-    {
-        if (Auth::user()->cannot('product-index')) abort(403);
+    { if (Auth::user()->cannot('product-read')) abort(403);
         
         $filter = Product::query();
 		
@@ -44,27 +35,14 @@ class ProductsController extends Controller
         return view('pages.products', ['products' => $products]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Create
     public function create()
-    {
-        if (Auth::user()->cannot('product-create')) abort(403);
+    { if (Auth::user()->cannot('product-create')) abort(403);
         
         return view('pages.products-create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        if (Auth::user()->cannot('product-create')) abort(403);
+    { if (Auth::user()->cannot('product-create')) abort(403);
         
         $this->validate($request,[
             'brand' => 'required',
@@ -89,48 +67,9 @@ class ProductsController extends Controller
         return redirect()->route('products.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Delete
     public function destroy($id)
-    {
+    { if (Auth::user()->cannot('product-delete')) abort(403);
         $product = Product::findOrFail($id);
 		
 		if(File::exists('img/products/'.$product->photo)) {

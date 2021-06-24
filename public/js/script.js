@@ -53,7 +53,25 @@ $(document).ready(function(){
     });
 });
 
-// Filter Product JSON
-$(document).ready(function () {
+// Modal Confirm Delete
+$('#DeleteModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget)
+    var uri = button.data('uri')
+    // var modal = $(this)
     
+    // modal.find('.modal-title').text(uri)
+    
+    $("#DeleteForm").attr("action", uri);
+})
+
+// Daterangepicker
+$(document).ready(function(){
+    $('#period').daterangepicker({
+        timePicker: true,
+        timePicker24Hour: true,
+        locale: {
+            format: 'Y-MM-DD HH:mm:ss',
+            separator: ' / ',
+        }
+    })
 });

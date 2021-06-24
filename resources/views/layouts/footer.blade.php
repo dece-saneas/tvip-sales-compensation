@@ -4,5 +4,5 @@
         Version 2.4c-beta
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2021 <a href="javascript:void(0)">Aveas</a> - </strong> All rights reserved
+    <strong>Copyright &copy; 2021 <a href="javascript:void(0)">Aveas Group</a> - </strong> All rights reserved
 </footer>

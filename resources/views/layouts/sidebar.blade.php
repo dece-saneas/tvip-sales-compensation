@@ -15,36 +15,30 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-header">STORES</li>
-                @can('product-index')
+                @can('product-read')
                 <li class="nav-item">
-                    <a href="{{ route('products.index') }}" class="nav-link {{ HelperMenu::active('url',['products*']) }}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Product</p>
+                    <a href="{{ route('products.index') }}" class="nav-link {{ HelperMenu::active('route',['products.index', 'products.create']) }}">
+                        <i class="fas fa-shopping-bag nav-icon"></i>
+                        <p>Products</p>
                     </a>
                 </li>
                 @endcan
-                @role('Super Admin')
-                <li class="nav-header">SETTINGS</li>
+                @can('product-supply-read')
                 <li class="nav-item">
-                    <a href="{{ route('core.users.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
+                    <a href="{{ route('supplies.index') }}" class="nav-link {{ HelperMenu::active('url',['products/supplies*']) }}">
+                        <i class="fas fa-dolly-flatbed nav-icon"></i>
+                        <p>Supplies</p>
+                    </a>
+                </li>
+                @endcan
+                @can('user-read')
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ HelperMenu::active('url',['users*']) }}">
+                        <i class="fas fa-users nav-icon"></i>
                         <p>Users</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('core.roles.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Roles</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('core.permissions.index') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Permissions</p>
-                    </a>
-                </li>
-                @endrole
+                @endcan
             </ul>
         </nav>
     </div>

@@ -26,16 +26,11 @@
                     <div class="form-group row">
                         <label for="select-permission" class="col-sm-4 col-form-label">Permission</label>
                         <div class="col-sm-8">
-                            <select class="form-control @error('role') is-invalid @enderror" id="select-permission" multiple data-live-search="true" name="permission[]" autocomplete="permission">
+                            <select class="form-control" id="select-permission" multiple data-live-search="true" name="permission[]" autocomplete="permission">
                                 @foreach ($permissions as $p)
                                 <option value="{{ $p->name }}" @foreach ($role->permissions as $xp) @if($xp->name == $p->name) selected @endif @endforeach>{{ $p->name }}</option>
                                 @endforeach
                             </select>
-                            @error('name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
                     </div>
                 </div>

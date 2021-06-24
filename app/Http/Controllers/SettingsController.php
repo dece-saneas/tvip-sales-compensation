@@ -9,35 +9,23 @@ use App\Models\User;
 
 class SettingsController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    // Construct
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the user profile.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    // Index
     public function index()
     {
         return view('pages.settings');
     }
 
-    /**
-     * Update profile.
-     *
-     */
+    // Update
     public function update(Request $request, $id)
     {
         $user = User::find($id);
         
-        // change email
         $this->validate($request,[
             'email' => 'required',
         ]);
@@ -45,12 +33,15 @@ class SettingsController extends Controller
 		$user->email = $request->email;
 		$user->save();
         
-        // change password
-        if(!empty($request->password)){
-             $this->change_password($request);
+        if(!empty($request['password'])){
+             $this->validate($request,[
+                'password' => ['string', 'min:8', 'confirmed'],
+            ]);
+            
+            $user->password = Hash::make($request['password']);
+            $user->save();
         }
         
-        // change photo
         if($request->hasFile('photo')){
             
             $this->validate($request,[
@@ -71,6 +62,7 @@ class SettingsController extends Controller
         }
         
         session()->flash('success', 'Profile berhasil di ubah !');
+        
         return redirect()->back();
     }
 }
