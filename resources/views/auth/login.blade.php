@@ -14,7 +14,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('css/fontawesome.min.css') }}">
     <!-- Sweetalert 2 -->
-    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.min.css') }}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap-icheck.min.css') }}">
     <!-- Theme style -->
@@ -83,7 +83,7 @@
 <!-- Bootstrap 4 -->
 <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 <!-- Sweetalert 2 -->
-<script src="{{ asset('js/sweetalert2.min.js')}}"></script>
+<script src="{{ asset('js/sweetalert.min.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('js/adminlte.min.js') }}"></script>
 @yield('script')
