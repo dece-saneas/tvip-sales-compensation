@@ -69,6 +69,7 @@ $(document).ready(function(){
     $('#period').daterangepicker({
         timePicker: true,
         timePicker24Hour: true,
+        drops: 'auto',
         locale: {
             format: 'Y-MM-DD HH:mm:ss',
             separator: ' / ',
