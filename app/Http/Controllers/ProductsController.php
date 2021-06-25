@@ -47,7 +47,7 @@ class ProductsController extends Controller
         $this->validate($request,[
             'brand' => 'required',
             'variant' => 'required',
-            'photo' => 'file|image|mimes:jpeg,png|max:2048',
+            'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
         ]);
         
         $photo = $request->file('photo');

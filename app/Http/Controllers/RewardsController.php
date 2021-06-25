@@ -31,7 +31,7 @@ class RewardsController extends Controller
     { if (Auth::user()->cannot('reward-create')) abort(403);
         
         $this->validate($request,[
-            'photo' => 'file|image|mimes:jpeg,png|max:2048',
+            'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
             'title' => 'required',
             'product' => 'required',
             'target' => 'required',
@@ -82,7 +82,7 @@ class RewardsController extends Controller
         if($request->hasFile('photo')){
             
             $this->validate($request,[
-                'photo' => 'file|image|mimes:jpeg,png|max:2048',
+                'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
             ]);
             
             $photo = $request->file('photo');
