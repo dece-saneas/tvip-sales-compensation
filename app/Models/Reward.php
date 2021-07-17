@@ -16,4 +16,9 @@ class Reward extends Model
     {
     	return $this->belongsTo('App\Models\Product');
     }
+    
+    public function leaderboard()
+    {
+    	return $this->hasMany('App\Models\Leaderboard');
+    }
 }

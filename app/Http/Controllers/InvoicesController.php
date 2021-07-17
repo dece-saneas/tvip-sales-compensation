@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth, Image;
 use App\Models\Cart;
 use App\Models\Invoice;
+use App\Models\Leaderboard;
+use App\Models\Reward;
 use Carbon\Carbon;
 
 class InvoicesController extends Controller
@@ -173,7 +175,7 @@ class InvoicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function process($type, $id)
-    { if (Auth::user()->cannot('create order')) abort(403);
+    {
         $invoice = Invoice::findOrFail($id);
         
         if($type == 'verify') {
@@ -186,13 +188,35 @@ class InvoicesController extends Controller
             $invoice->save();
         }
         
-        if($type == 'complete') {
+        if($type == 'complete') {            
+            $carts = Cart::where('invoice_id', $id)->get();
+            
+            foreach($carts as $product) {
+                $rewards = Reward::where('product_id', $product->product_id)->where('period_end', '>=', Carbon::now()->subDay())->get();
+                
+                if($rewards) {
+                    foreach($rewards as $reward) {
+                        $onboard = Leaderboard::where('user_id', Auth::id())->where('reward_id', $reward->id)->first();
+                        
+                        if($onboard) {
+                            $onboard->point =  $onboard->point+$product->quantity;
+                            $onboard->save();
+                        }else {
+                            $join = Leaderboard::create([
+                                'user_id' => Auth::id(),
+                                'reward_id' => $reward->id,
+                                'point' => $product->quantity,
+                                'used' => 0,
+                            ]);
+                        }
+                    }
+                }
+            }
+            
             $invoice->status =  'Selesai';
             $invoice->save();
         }
         
-		session()->flash('success', 'Pesanan di Proses !');
-		
         return redirect()->back();
     }
 }

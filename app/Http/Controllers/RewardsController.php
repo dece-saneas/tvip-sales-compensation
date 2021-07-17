@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth, Image, File;
 use App\Models\Product;
 use App\Models\Reward;
+use App\Models\Leaderboard;
 
 class RewardsController extends Controller
 {
@@ -58,7 +59,17 @@ class RewardsController extends Controller
         
         return redirect()->route('dashboard');
     }
-
+    
+    // Show
+    public function show($id)
+    {
+        $reward = Reward::findOrFail($id);
+        
+        $leaderboards = Leaderboard::where('reward_id', $id)->orderBy('point', 'DESC')->paginate(20);
+        
+        return view('pages.rewards-show', ['leaderboards' => $leaderboards, 'reward' => $reward]);
+    }
+    
     // Edit
     public function edit($id)
     { if (Auth::user()->cannot('edit reward')) abort(403);

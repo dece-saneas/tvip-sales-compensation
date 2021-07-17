@@ -64,26 +64,26 @@
                                     <i class="fas fa-tag"></i>
                                 </div>
                                 <div class="col-11">
-                                    <span class="badge badge-dark px-2">{{ $reward->product->brand }}</span> <span class="badge badge-dark px-2">{{ $reward->product->variant }}</span>
+                                    <span class="badge badge-secondary px-2 mb-1">{{ $reward->product->brand }}</span> <span class="badge badge-secondary px-2">{{ $reward->product->variant }}</span>
                                 </div>
                             </div>
-                            @cannot('order product')
+                            @cannot('create order')
                             <div class="row reward-content mb-2">
                                 <div class="col-1 m-auto d-flex justify-content-center">
                                     <i class="fas fa-dot-circle"></i>
                                 </div>
                                 <div class="col-11">
-                                    <h5 class="m-0"><span class="badge badge-success px-2 py-2">{{ number_format($reward->target,0,"",".")  }}</span></h5>
+                                    <h6 class="m-0">Target : <span class="badge badge-light px-2">{{ number_format($reward->target,0,"",".")  }}</span> Pembelian product</h6>
                                 </div>
                             </div>
                             @endcannot
-                            <div class="row reward-content mt-4">
+                            <div class="row reward-content mt-2">
                                 <div class="col-1 m-auto d-flex justify-content-center">
                                     <i class="fas fa-dot-circle"></i>
                                 </div>
                                 <div class="col-11">
                                     <h6 class="m-0">Periode Reward</h6>
-                                    <small>{{ $reward->period_start->format('d M Y') }} - {{ $reward->period_end->format('d M Y') }}</small>
+                                    <small> <span class="badge @if($reward->period_end->isPast()) badge-danger @else badge-success @endif px-2">{{ $reward->period_start->format('d M Y') }} - {{ $reward->period_end->format('d M Y') }}</span></small>
                                 </div>
                             </div>
                         </div>
@@ -101,22 +101,35 @@
                             </div>
                         </div>
                         @endcanany
-                        @can('order product')
+                        @can('create order')
                         <div class="card-footer p-0">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="progress-group">
-                                        <span>0%</span>
-                                        <span class="float-right"><b>0</b>/{{ number_format($reward->target,0,"",".") }}</span>
+                                        @php $point = 0; @endphp
+                                        @if(count($leaderboards) > 0 )
+                                            @foreach($leaderboards as $my)
+                                                @if($my->reward_id == $reward->id)
+                                                    @php $point = $my->point-$my->used; @endphp
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                        <span>{{ $point * 100 / $reward->target }}%</span>
+                                        <span class="float-right"><b>{{ $point }}</b>/{{ number_format($reward->target,0,"",".") }}</span>
                                         <div class="progress progress-xs">
-                                            <div class="progress-bar bg-primary progress-bar-striped" style="width: 0%"></div>
+                                            <div class="progress-bar bg-primary progress-bar-striped" style="width: {{ $point * 100 / $reward->target }}%"></div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
                         <div class="card-footer reward-footer">
-                            <button class="btn  btn-sm btn-success btn-block m-0">Claim Reward</button>
+                            <a href="#" class="btn btn-sm @if(($point * 100 / $reward->target) < $reward->target) btn-light disabled @else btn-success @endif btn-block m-0">Claim Reward</a>
+                        </div>
+                        @endcan
+                        @can('create user')
+                        <div class="card-footer reward-footer">
+                            <a href="{{ route('rewards.show', $reward->id) }}" class="btn btn-sm btn-light btn-block m-0">Leaderboards</a>
                         </div>
                         @endcan
                     </div>

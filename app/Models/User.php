@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
     	return $this->hasMany('App\Models\Cart');
     }
+    
+    public function leaderboard()
+    {
+    	return $this->hasMany('App\Models\Leaderboard');
+    }
 }
