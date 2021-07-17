@@ -16,7 +16,7 @@ class ProductsController extends Controller
     
     // Index
     public function index(Request $request)
-    { if (Auth::user()->cannot('product-read')) abort(403);
+    { if (Auth::user()->cannot('view product')) abort(403);
         
         $filter = Product::query();
 		
@@ -37,16 +37,17 @@ class ProductsController extends Controller
 
     // Create
     public function create()
-    { if (Auth::user()->cannot('product-create')) abort(403);
+    { if (Auth::user()->cannot('create product')) abort(403);
         
         return view('pages.products-create');
     }
     public function store(Request $request)
-    { if (Auth::user()->cannot('product-create')) abort(403);
+    { if (Auth::user()->cannot('create product')) abort(403);
         
         $this->validate($request,[
             'brand' => 'required',
             'variant' => 'required',
+            'price' => 'required',
             'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
         ]);
         
@@ -57,6 +58,7 @@ class ProductsController extends Controller
             'photo' => $photo_filename,
             'brand' => $request['brand'],
             'variant' => $request['variant'],
+            'price' => $request['price'],
             'stock' => 0,
         ]);
         
@@ -69,7 +71,7 @@ class ProductsController extends Controller
 
     // Delete
     public function destroy($id)
-    { if (Auth::user()->cannot('product-delete')) abort(403);
+    { if (Auth::user()->cannot('delete product')) abort(403);
         $product = Product::findOrFail($id);
 		
 		if(File::exists('img/products/'.$product->photo)) {

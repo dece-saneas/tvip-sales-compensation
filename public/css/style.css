@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
+a { color: inherit; } 
 
 
 /* Navbar */
@@ -42,7 +43,16 @@
 }
 
 
-
+/* Product */
+.product:hover {
+    cursor: pointer;
+    color: inherit; 
+}
+.product-price {
+    color: #007bff;
+    font-weight: bold;
+    font-size: 14pt;
+}
 
 
 

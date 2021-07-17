@@ -8,34 +8,50 @@
     <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-3">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-legacy" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link {{ HelperMenu::active('route',['dashboard']) }}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                @can('product-read')
+                @can('view product')
                 <li class="nav-item">
                     <a href="{{ route('products.index') }}" class="nav-link {{ HelperMenu::active('route',['products.index', 'products.create']) }}">
                         <i class="fas fa-shopping-bag nav-icon"></i>
-                        <p>Products</p>
+                        <p>Produk</p>
                     </a>
                 </li>
                 @endcan
-                @can('product-supply-read')
+                @can('ciew supply')
                 <li class="nav-item">
                     <a href="{{ route('supplies.index') }}" class="nav-link {{ HelperMenu::active('url',['products/supplies*']) }}">
                         <i class="fas fa-dolly-flatbed nav-icon"></i>
-                        <p>Supplies</p>
+                        <p>Stok Barang</p>
                     </a>
                 </li>
                 @endcan
-                @can('user-read')
+                @can('create order')
+                <li class="nav-item">
+                    <a href="{{ route('carts.index') }}" class="nav-link">
+                        <i class="fas fa-shopping-cart nav-icon"></i>
+                        <p>Keranjang @if(count($data['carts']) > 0) <span class="badge badge-primary right">{{ count($data['carts']) }}</span> @endif</p>
+                    </a>
+                </li>
+                @endcan
+                @can('view order')
+                <li class="nav-item">
+                    <a href="{{ route('orders.index') }}" class="nav-link">
+                        <i class="fas fa-receipt nav-icon"></i>
+                        <p>Pesanan @if(count($data['invoices']) > 0) <span class="badge badge-primary right">{{ count($data['invoices']) }}</span> @endif</p>
+                    </a>
+                </li>
+                @endcan
+                @can('view user')
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ HelperMenu::active('url',['users*']) }}">
                         <i class="fas fa-users nav-icon"></i>
-                        <p>Users</p>
+                        <p>User</p>
                     </a>
                 </li>
                 @endcan

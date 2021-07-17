@@ -21,8 +21,7 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Rewards</li>
-            <li class="breadcrumb-item active">Edit</li>
+            <li class="breadcrumb-item active">Edit Reward</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -48,7 +47,7 @@
                             <div class="input-group mb-2">
                                 <div class="custom-file" id="customFile">
                                     <input type="file" class="custom-file-input" id="upload" aria-describedby="photoAddon" name="photo">
-                                    <label class="custom-file-label" id="upload-label">Change Photo</label>
+                                    <label class="custom-file-label" id="upload-label">Upload Photo</label>
                                 </div>
                             </div>
                             @error('photo')
@@ -64,7 +63,7 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="form-group">
-                                    <label for="title">Title</label>
+                                    <label for="title">Judul</label>
                                     <input id="title" type="text" class="form-control form-control-sm @error('title') is-invalid @enderror" name="title" value="{{ $reward->title }}">
                                     @error('title')
                                     <span class="invalid-feedback">
@@ -73,7 +72,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="product">Product</label>
+                                    <label for="product">Pilih Produk</label>
                                     <select id="product" class="form-control form-control-sm select @error('product') is-invalid @enderror" name="product">
                                         <option></option>
                                         @foreach($products as $product)
@@ -96,7 +95,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="period">Period</label>
+                                    <label for="period">Periode</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">
@@ -112,7 +111,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Simpan</button>
                                 </div>
                             </div>
                             </form>

@@ -7,7 +7,7 @@
 @endsection
 
 @section('modal')
-@can('product-supplu-delete')
+@can('delete supply')
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -40,8 +40,8 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('products.index') }}">Products</a></li>
-            <li class="breadcrumb-item active">Supplies</li>
+            <li class="breadcrumb-item active"><a href="{{ route('products.index') }}">Produk</a></li>
+            <li class="breadcrumb-item active">Riwayat</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -49,10 +49,10 @@
         <div class="container">
             <div class="jumbotron jumbotron-fluid p-4 bg-transparent">
                 <div class="container text-center">
-                    <h1 class="display-4">Supplies History</h1>
+                    <h1 class="display-4">Riwayat Stok</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    @can('product-supply-create')
-                    <a href="{{ route('supplies.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Add Stock</a>
+                    @can('create supply')
+                    <a href="{{ route('supplies.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Tambah Stok</a>
                     @endcan
                 </div>
             </div>
@@ -68,7 +68,7 @@
                                             <th width="50%">Product</th>
                                             <th width="10%" class="text-center">Stock</th>
                                             <th width="20%" class="text-center">Date</th>
-                                            @canany(['product-supply-update', 'product-supply-delete'])
+                                            @canany(['edit supply', 'delete supply'])
                                             <th width="15%" class="text-center">Action</th>
                                             @endcanany
                                         </tr>
@@ -87,13 +87,13 @@
                                             <td width="50%"><h6 class="m-0"><strong>{{ $supply->product->brand }} - {{ $supply->product->variant }}</strong></h6><small>"{{ $supply->notes }}"</small></td>
                                             <td width="10%" class="align-middle text-center"><span class="badge badge-success">+ {{ $supply->stock }}</span></td>
                                             <td width="20%" class="align-middle text-center"><small>{{ $supply->user->name }}</small><br><span class="badge badge-light">{{ $supply->updated_at->format('d M Y - h:i A ') }}</span></td>
-                                            @canany(['product-supply-update', 'product-supply-delete'])
+                                            @canany(['edit supply', 'delete supply'])
                                             <td width="15%" class="align-middle text-center">
                                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                                    @can('product-supply-update')
+                                                    @can('edit supply')
                                                     <a href="{{ route('supplies.edit',$supply->id) }}" class="btn btn-light">Edit</a>
                                                     @endcan
-                                                    @can('product-supply-delete')
+                                                    @can('delete supply')
                                                     <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('supplies.destroy', $supply->id) }}"><i class="fas fa-trash"></i></button>
                                                     @endcan
                                                 </div>

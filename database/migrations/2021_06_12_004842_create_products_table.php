@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('photo');
             $table->string('brand');
             $table->string('variant');
+            $table->string('price');
             $table->string('stock');
             $table->timestamps();
         });

@@ -20,7 +20,7 @@
                 <img src="{{ asset('img/users/'.Auth::user()->photo) }}" class="img-circle nav-user-img" alt="User Image" onerror="this.onerror=null;this.src='{{ asset('img/users/placeholder.jpg') }}';"><span class="nav-user-name">{{ Auth::user()->name }}</span>
             </a>
             <div class="dropdown-menu">
-                <a href="{{ route('settings.index') }}" class="dropdown-item">Settings</a>
+                <a href="{{ route('settings.index') }}" class="dropdown-item">Pengaturan</a>
                 @role('Super Admin')
                 <a href="{{ route('core.users.index') }}" class="dropdown-item">Manage Users</a>
                 @endrole

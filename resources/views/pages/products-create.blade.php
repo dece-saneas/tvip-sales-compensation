@@ -16,8 +16,8 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('products.index') }}">Products</a></li>
-            <li class="breadcrumb-item active">Create</li>
+            <li class="breadcrumb-item active"><a href="{{ route('products.index') }}">Produk</a></li>
+            <li class="breadcrumb-item active">Tambah Produk</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -25,7 +25,7 @@
         <div class="container">
             <div class="jumbotron jumbotron-fluid p-4 bg-transparent">
                 <div class="container text-center">
-                    <h1 class="display-4">Create Product</h1>
+                    <h1 class="display-4">Tambah Produk</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                             <div class="input-group mb-2">
                                 <div class="custom-file" id="customFile">
                                     <input type="file" class="custom-file-input" id="upload" aria-describedby="photoAddon" name="photo">
-                                    <label class="custom-file-label" id="upload-label">Change Photo</label>
+                                    <label class="custom-file-label" id="upload-label">Upload Photo</label>
                                 </div>
                             </div>
                             @error('photo')
@@ -59,7 +59,7 @@
                         <div class="card-body">
                             <div class="tab-content">
                                 <div class="form-group">
-                                    <label for="brand">Brand</label>
+                                    <label for="brand">Merk</label>
                                     <select id="brand" class="form-control form-control-sm select @error('brand') is-invalid @enderror" name="brand">
                                         <option></option>
                                         <option value="Aqua">Aqua</option>
@@ -74,7 +74,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="variant">Variant</label>
+                                    <label for="variant">Ukuran</label>
                                     <input id="variant" type="text" class="form-control form-control-sm @error('variant') is-invalid @enderror" name="variant">
                                     @error('variant')
                                     <span class="invalid-feedback">
@@ -82,8 +82,17 @@
                                     </span>
                                     @enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="variant">Harga</label>
+                                    <input id="price" type="number" class="form-control form-control-sm @error('price') is-invalid @enderror" name="price">
+                                    @error('price')
+                                    <span class="invalid-feedback">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
                                 <div class="form-group text-right mb-0">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Create</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Simpan</button>
                                 </div>
                             </div>
                             </form>

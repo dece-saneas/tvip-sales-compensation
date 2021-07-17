@@ -17,7 +17,7 @@ class SuppliesController extends Controller
     
     // Index
     public function index(Request $request)
-    { if (Auth::user()->cannot('product-supply-read')) abort(403);
+    { if (Auth::user()->cannot('view supply')) abort(403);
         $supplies = Supply::orderBy('updated_at', 'DESC')->paginate(20);
         
         return view('pages.supplies', ['supplies' => $supplies]);
@@ -25,7 +25,7 @@ class SuppliesController extends Controller
 
     // Create
     public function create()
-    { if (Auth::user()->cannot('product-supply-create')) abort(403);
+    { if (Auth::user()->cannot('create supply')) abort(403);
         $products = Product::orderBy('brand', 'ASC')->get();
         
         if(count($products) == 0) {
@@ -36,7 +36,7 @@ class SuppliesController extends Controller
         return view('pages.supplies-create', ['products' => $products]);
     }
     public function store(Request $request)
-    { if (Auth::user()->cannot('product-supply-create')) abort(403);
+    { if (Auth::user()->cannot('create supply')) abort(403);
         $this->validate($request,[
             'product' => 'required',
             'stock' => 'required',
@@ -62,14 +62,14 @@ class SuppliesController extends Controller
 
     // Edit
     public function edit($id)
-    { if (Auth::user()->cannot('product-supply-update')) abort(403);
+    { if (Auth::user()->cannot('edit supply')) abort(403);
         $products = Product::orderBy('brand', 'ASC')->get();
         $supply = Supply::findOrFail($id);
         
         return view('pages.supplies-edit', ['supply' => $supply, 'products' => $products]);
     }
     public function update(Request $request, $id)
-    { if (Auth::user()->cannot('product-supply-update')) abort(403);
+    { if (Auth::user()->cannot('edit supply')) abort(403);
         $supply = Supply::findOrFail($id);
         $product = Product::findOrFail($supply->product_id);
         
@@ -94,7 +94,7 @@ class SuppliesController extends Controller
 
     // Delete
     public function destroy($id)
-    {
+    { if (Auth::user()->cannot('delete supply')) abort(403);
         $supply = Supply::findOrFail($id);
         $product = Product::findOrFail($supply->product_id);
         

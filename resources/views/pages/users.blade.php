@@ -7,7 +7,7 @@
 @endsection
 
 @section('modal')
-@can('user-delete')
+@can('delete user')
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -40,7 +40,7 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Users</li>
+            <li class="breadcrumb-item active">User</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -48,10 +48,10 @@
         <div class="container">
             <div class="jumbotron jumbotron-fluid p-4 bg-transparent">
                 <div class="container text-center">
-                    <h1 class="display-4">User Manager</h1>
+                    <h1 class="display-4">Daftar User</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    @can('user-create')
-                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Create New</a>
+                    @can('create user')
+                    <a href="{{ route('users.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Tambah User</a>
                     @endcan
                 </div>
             </div>
@@ -67,7 +67,9 @@
                                             <th width="30%">Name</th>
                                             <th width="30%">Email</th>
                                             <th width="20%" class="text-center">Role</th>
+                                            @canany(['edit user', 'delete user'])
                                             <th width="15%" class="text-center">Action</th>
+                                            @endcanany
                                         </tr>
                                     </thead>
                                 </table>
@@ -85,17 +87,17 @@
                                             <td width="30%">{{ $user->name }}</td>
                                             <td width="30%">{{ $user->email }}</td>
                                             <td width="20%" class="text-center">@foreach($user->roles as $role) <span class="badge badge-light">{{ $role->name }}</span> @endforeach</td>
-                                            @canany(['user-update', 'user-delete'])
+                                            @canany(['edit user', 'delete user'])
                                             <td width="15%" class="align-middle text-center">
                                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                                    @can('user-update')
+                                                    @can('edit user')
                                                     @if($user->id == Auth::user()->id )
                                                     <button type="button" class="btn btn-sm btn-light" disabled>Edit</button>
                                                     @else
                                                     <a href="{{ route('users.edit',$user->id) }}" class="btn btn-light">Edit</a>
                                                     @endif
                                                     @endcan
-                                                    @can('user-delete')
+                                                    @can('delete user')
                                                     @if($user->id == Auth::user()->id )
                                                     <button type="button" class="btn btn-sm btn-light" disabled><i class="fas fa-trash"></i></button>
                                                     @else

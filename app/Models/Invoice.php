@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Invoice extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -12,17 +12,12 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'photo', 'brand', 'variant', 'price', 'stock',
+        'code', 'user_id', 'payment', 'total',  'attachment',  'bank_name',  'bank_account_name',  'bank_account',  'telp',  'address',  'status',
     ];
     
-    public function supply()
+    public function user()
     {
-    	return $this->hasMany('App\Models\Supply');
-    }
-    
-    public function reward()
-    {
-    	return $this->hasMany('App\Models\Reward');
+    	return $this->belongsTo('App\Models\User');
     }
     
     public function cart()

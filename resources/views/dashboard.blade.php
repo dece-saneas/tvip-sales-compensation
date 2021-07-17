@@ -3,7 +3,7 @@
 @section('title') TVIP - Dashboard @endsection
 
 @section('modal')
-@can('reward-delete')
+@can('delete reward')
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -45,17 +45,18 @@
                 <div class="container text-center">
                     <h1 class="display-4">Dashboard</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    @can('reward-create')
-                    <a href="{{ route('rewards.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Create New</a>
+                    @can('create reward')
+                    <a href="{{ route('rewards.create') }}" class="btn btn-sm btn-outline-dark mx-1"><i class="fas fa-plus mr-2"></i>Tambah Reward</a>
                     @endcan
                 </div>
             </div>
-            @can('reward-read')
+            @can('view reward')
+            @if(count($rewards) > 0)
             <div class="row">  
                 @foreach($rewards as $reward)
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 card-reward">
-                        <a href="#"><img src="{{ asset('img/rewards/'.$reward->photo) }}" class="card-img-top" alt="Reward Image"></a>
+                        <img src="{{ asset('img/rewards/'.$reward->photo) }}" class="card-img-top" alt="Reward Image">
                         <div class="card-body pb-0">
                             <h6 class="mb-3"><strong>{{ $reward->title }}</strong></h6>
                             <div class="row reward-content mb-2">
@@ -66,9 +67,19 @@
                                     <span class="badge badge-dark px-2">{{ $reward->product->brand }}</span> <span class="badge badge-dark px-2">{{ $reward->product->variant }}</span>
                                 </div>
                             </div>
-                            <div class="row reward-content">
+                            @cannot('order product')
+                            <div class="row reward-content mb-2">
                                 <div class="col-1 m-auto d-flex justify-content-center">
-                                    <i class="far fa-dot-circle"></i>
+                                    <i class="fas fa-dot-circle"></i>
+                                </div>
+                                <div class="col-11">
+                                    <h5 class="m-0"><span class="badge badge-success px-2 py-2">{{ number_format($reward->target,0,"",".")  }}</span></h5>
+                                </div>
+                            </div>
+                            @endcannot
+                            <div class="row reward-content mt-4">
+                                <div class="col-1 m-auto d-flex justify-content-center">
+                                    <i class="fas fa-dot-circle"></i>
                                 </div>
                                 <div class="col-11">
                                     <h6 class="m-0">Periode Reward</h6>
@@ -76,27 +87,27 @@
                                 </div>
                             </div>
                         </div>
-                        @canany(['reward-update', 'reward-delete'])
+                        @canany(['edit reward', 'delete reward'])
                         <div class="card-footer reward-footer b-0">
                             <div class="d-flex justify-content-end">
                                 <div class="btn-group" role="group">
-                                    @can('reward-update')
+                                    @can('edit reward')
                                     <a href="{{ route('rewards.edit', $reward->id) }}" class="btn btn-sm btn-light">Edit</a>
                                     @endcan
-                                    @can('reward-delete')
+                                    @can('delete reward')
                                     <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('rewards.destroy', $reward->id) }}"><i class="fas fa-trash"></i></button>
                                     @endcan
                                 </div>
                             </div>
                         </div>
                         @endcanany
-                        <!--
+                        @can('order product')
                         <div class="card-footer p-0">
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <div class="progress-group">
                                         <span>0%</span>
-                                        <span class="float-right"><b>0</b>/{{ $reward->target }}</span>
+                                        <span class="float-right"><b>0</b>/{{ number_format($reward->target,0,"",".") }}</span>
                                         <div class="progress progress-xs">
                                             <div class="progress-bar bg-primary progress-bar-striped" style="width: 0%"></div>
                                         </div>
@@ -107,11 +118,17 @@
                         <div class="card-footer reward-footer">
                             <button class="btn  btn-sm btn-success btn-block m-0">Claim Reward</button>
                         </div>
-                        -->
+                        @endcan
                     </div>
                 </div>
                 @endforeach
             </div>
+            @else
+            <div class="alert alert-light alert-dismissible fade show" role="alert">
+                Belum ada Reward yang tersedia !
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            @endif
             @endcan
         </div>
     </div>

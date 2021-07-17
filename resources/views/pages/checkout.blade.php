@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title') TVIP - Edit Supplies @endsection
+@section('title') TVIP - Add Supplies @endsection
 
 @section('style')
 <link rel="stylesheet" href="{{ asset('css/select.min.css') }}">
@@ -16,9 +16,8 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('products.index') }}">Produk</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('supplies.index') }}">Riwayat</a></li>
-            <li class="breadcrumb-item active">Edit Riwayat</li>
+            <li class="breadcrumb-item active"><a href="{{ route('carts.index') }}">Keranjang</a></li>
+            <li class="breadcrumb-item active">Checkout</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -26,7 +25,7 @@
         <div class="container">
             <div class="jumbotron jumbotron-fluid p-4 bg-transparent">
                 <div class="container text-center">
-                    <h1 class="display-4">Edit Riwayat Stok</h1>
+                    <h1 class="display-4">Checkout</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 </div>
             </div>
@@ -34,43 +33,42 @@
                 <div class="col-md-4">
                     <div class="card card-primary card-outline">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('supplies.update', $supply->id) }}">
-                            @csrf @method('put')
+                            <form method="POST" action="{{ route('orders.store') }}">
+                            @csrf
                             <div class="tab-content">
                                 <div class="form-group">
-                                    <label for="product">Produk</label>
-                                    <select id="product" class="form-control form-control-sm select @error('product') is-invalid @enderror" name="product" disabled>
+                                    <label for="payment">Metode Pembayaran</label>
+                                    <select id="payment" class="form-control form-control-sm select @error('payment') is-invalid @enderror" name="payment">
                                         <option></option>
-                                        @foreach ($products as $product)
-                                        <option value="{{ $product->id }}" @if($supply->product->id == $product->id) selected @endif>{{ $product->brand }} - {{ $product->variant }}</option>
-                                        @endforeach
+                                        <option value="Bank">Bank Transfer</option>
+                                        <option value="COD">Cash on Delivery (COD)</option>
                                     </select>
-                                    @error('product')
+                                    @error('payment')
                                     <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="stock">Jumlah Stok</label>
-                                    <input id="stock" type="number" class="form-control form-control-sm @error('stock') is-invalid @enderror" placeholder="0" name="stock" value="{{ $supply->stock }}">
-                                    @error('stock')
+                                    <label for="telp">No Telp</label>
+                                    <input id="telp" type="number" class="form-control form-control-sm @error('telp') is-invalid @enderror" placeholder="+62" name="telp">
+                                    @error('telp')
                                     <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="notes">Catatan</label>
-                                    <textarea id="notes" class="form-control form-control-sm @error('notes') is-invalid @enderror" rows="2" name="notes">{{ $supply->notes }}</textarea>
-                                    @error('notes')
+                                    <label for="address">Alamat</label>
+                                    <textarea id="address" class="form-control form-control-sm @error('address') is-invalid @enderror" rows="2" name="address"></textarea>
+                                    @error('address')
                                     <span class="invalid-feedback">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
                                 </div>
                                 <div class="form-group text-right mb-0">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Simpan</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-receipt mr-2"></i>Pesan</button>
                                 </div>
                             </div>
                             </form>

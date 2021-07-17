@@ -64,6 +64,71 @@ $('#DeleteModal').on('show.bs.modal', function (event) {
     $("#DeleteForm").attr("action", uri);
 })
 
+// Modal Order
+$(document).ready(function(){
+    $('#OrderModal').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        var button = $(event.relatedTarget)
+        var uri = button.data('uri')
+        var img = button.data('img')
+        var brand = button.data('brand')
+        var variant = button.data('variant')
+        var stock = button.data('stock')
+        var product = button.data('product')
+
+        modal.find('.card-title').text(brand);
+        modal.find('.card-text').text(variant);
+        modal.find('.modal-photo').attr("src", img);
+        modal.find('.quantity').attr("max", stock);
+        modal.find('.product').attr("value", product);
+
+        $("#OrderForm").attr("action", uri);
+    })
+})
+
+// Modal Edit Cart
+$(document).ready(function(){
+    $('#EditModal').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        var button = $(event.relatedTarget)
+        var uri = button.data('uri')
+        var quantity = button.data('quantity')
+        var max = button.data('max')
+
+        modal.find('.quantity').attr("value", quantity);
+        modal.find('.quantity').attr("max", max);
+
+        $("#EditForm").attr("action", uri);
+    })
+})
+
+// Modal Upload Bukti
+$('#UploadModal').on('show.bs.modal', function (event) {
+    var modal = $(this)
+    var button = $(event.relatedTarget)
+    var uri = button.data('uri')
+    var bank = button.data('bank')
+    var name = button.data('name')
+    var account = button.data('account')
+    var attach = button.data('attachment')
+    
+    $("#UploadForm").attr("action", uri);
+    modal.find('.bank').attr("value", bank); 
+    modal.find('.account').attr("value", account);
+    modal.find('.name').attr("value", name);
+    modal.find('.attach').attr("src", attach);
+    
+    if(bank) {
+        modal.find('.bank').prop('disabled', true);
+        modal.find('.account').prop('disabled', true);
+        modal.find('.name').prop('disabled', true);
+        modal.find('.upload').prop('disabled', true);
+        modal.find('.btn-success').prop('disabled', true);
+    }
+              
+    
+})
+
 // Daterangepicker
 $(document).ready(function(){
     $('#period').daterangepicker({

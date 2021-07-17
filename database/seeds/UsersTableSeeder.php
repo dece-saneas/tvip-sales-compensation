@@ -14,44 +14,42 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $user1 = User::create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@aveasgroup.com',
-            'password' => Hash::make(12345678),
-        ]);
-		
-		$user1->assignRole('Super Admin');
-		
-        $user2 = User::create([
-            'name' => 'Gading Pradana',
-            'email' => 'manager@tvip.com',
-            'password' => Hash::make(12345678),
-        ]);
-		
-		$user2->assignRole('Manager');
-		
-        $user3 = User::create([
-            'name' => 'Yoga Wibisono',
-            'email' => 'admingudang@tvip.com',
-            'password' => Hash::make(12345678),
-        ]);
-		
-		$user3->assignRole('Admin Gudang');
-		
-        $user4 = User::create([
-            'name' => 'Puji Novitasari',
-            'email' => 'admincro@tvip.com',
-            'password' => Hash::make(12345678),
-        ]);
-		
-		$user4->assignRole('Admin CRO');
-		
-        $user5 = User::create([
-            'name' => 'Rika Melani',
-            'email' => 'customer@tvip.com',
-            'password' => Hash::make(12345678),
-        ]);
-		
-		$user5->assignRole('Customer');
+        $users = [
+            0 => [
+                'name' => 'Super Admin',
+                'email' => 'superadmin@mail.com',
+                'role' => 'Super Admin'
+            ],
+            1 => [
+                'name' => 'Manager',
+                'email' => 'manager@tvip.com',
+                'role' => 'Manager'
+            ],
+            2 => [
+                'name' => 'Admin Gudang',
+                'email' => 'admin.gudang@tvip.com',
+                'role' => 'Admin Gudang'
+            ],
+            3 => [
+                'name' => 'Admin CRO',
+                'email' => 'admin.cro@tvip.com',
+                'role' => 'Admin CRO'
+            ],
+            4 => [
+                'name' => 'Customer',
+                'email' => 'customer@tvip.com',
+                'role' => 'Customer'
+            ]
+        ];
+        
+        foreach ($users as $user) {
+            $newUser = User::create([
+                'name' => $user['name'],
+                'email' => $user['email'],
+                'password' => Hash::make(12345678),
+            ]);
+            
+            $newUser->assignRole($user['role']);
+        }
     }
 }

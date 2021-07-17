@@ -17,7 +17,7 @@ class RewardsController extends Controller
 
     // Create
     public function create()
-    { if (Auth::user()->cannot('reward-create')) abort(403);
+    { if (Auth::user()->cannot('create reward')) abort(403);
         $products = Product::orderBy('brand', 'ASC')->get();
      
         if(count($products) == 0) {
@@ -28,7 +28,7 @@ class RewardsController extends Controller
         return view('pages.rewards-create', ['products' => $products]);
     }
     public function store(Request $request)
-    { if (Auth::user()->cannot('reward-create')) abort(403);
+    { if (Auth::user()->cannot('create reward')) abort(403);
         
         $this->validate($request,[
             'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
@@ -61,14 +61,14 @@ class RewardsController extends Controller
 
     // Edit
     public function edit($id)
-    { if (Auth::user()->cannot('reward-update')) abort(403);
+    { if (Auth::user()->cannot('edit reward')) abort(403);
         $products = Product::orderBy('brand', 'ASC')->get();
         $reward = Reward::findOrFail($id);
         
         return view('pages.rewards-edit', ['reward' => $reward, 'products' => $products]);
     }
     public function update(Request $request, $id)
-    { if (Auth::user()->cannot('reward-update')) abort(403);
+    { if (Auth::user()->cannot('edit reward')) abort(403);
         $products = Product::orderBy('brand', 'ASC')->get();
         $reward = Reward::findOrFail($id);
      
@@ -105,7 +105,7 @@ class RewardsController extends Controller
 
     // Delete
     public function destroy($id)
-    { if (Auth::user()->cannot('reward-delete')) abort(403);
+    { if (Auth::user()->cannot('delete reward')) abort(403);
         $reward = Reward::findOrFail($id);
 		
 		if(File::exists('img/rewards/'.$reward->photo)) {

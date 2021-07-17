@@ -16,8 +16,8 @@
     <div class="container-fluid px-0">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{ route('users.index') }}">Users</a></li>
-            <li class="breadcrumb-item active">Edit</li>
+            <li class="breadcrumb-item active"><a href="{{ route('users.index') }}">User</a></li>
+            <li class="breadcrumb-item active">Edit User</li>
         </ol>
     </div>
     <!-- Main content -->
@@ -37,7 +37,7 @@
                             @csrf @method('put')
                             <div class="tab-content">
                                 <div class="form-group">
-                                    <label for="name">Name</label>
+                                    <label for="name">Nama</label>
                                     <input id="name" type="text" class="form-control form-control-sm @error('name') is-invalid @enderror" name="name" autocomplete="name" autofocus value="{{ $user->name }}">
                                     @error('name')
                                     <span class="invalid-feedback">
@@ -86,7 +86,7 @@
                                     <input type="password" class="form-control form-control-sm" id="input-password-confirm" name="password_confirmation" autocomplete="new-password">
                                 </div>
                                 <div class="form-group text-right mb-0">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Save</button>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-2"></i>Simpan</button>
                                 </div>
                             </div>
                             </form>

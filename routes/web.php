@@ -21,8 +21,12 @@ Route::prefix('super-admin')->group(function () {
     Route::resource('permissions','Core\PermissionController', ['as' => 'core'])->except(['show']);
 });
 
-Route::resource('settings','SettingsController')->except(['create', 'store', 'edit', 'show', 'destroy']);
+Route::resource('settings','SettingsController')->only(['index', 'update']);
 Route::resource('products','ProductsController')->except(['edit', 'update', 'show']);
 Route::resource('products/supplies','SuppliesController')->except(['show']);
 Route::resource('rewards','RewardsController')->except(['index', 'show']);
 Route::resource('users','UsersController')->except(['show']);
+Route::resource('carts','CartsController')->except(['create', 'edit','show']);
+
+Route::get('orders/{type}/{id}', 'InvoicesController@process')->name('orders.process');
+Route::resource('orders','InvoicesController')->except(['edit', 'destroy']);

@@ -17,7 +17,7 @@ class UsersController extends Controller
 
     // Index
     public function index()
-    { if (Auth::user()->cannot('user-read')) abort(403);
+    { if (Auth::user()->cannot('view user')) abort(403);
      
         $users = User::orderBy('name', 'ASC')->paginate(20);
      
@@ -30,13 +30,13 @@ class UsersController extends Controller
     
     // Create
     public function create()
-    { if (Auth::user()->cannot('user-create')) abort(403);
+    { if (Auth::user()->cannot('create user')) abort(403);
         $roles = Role::orderBy('name', 'asc')->get();
      
         return view('pages.users-create', ['roles' => $roles]);
     }
     public function store(Request $request)
-    { if (Auth::user()->cannot('user-create')) abort(403);
+    { if (Auth::user()->cannot('create user')) abort(403);
         $this->validate($request,[
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -59,7 +59,7 @@ class UsersController extends Controller
     
     // Edit
     public function edit($id)
-    { if (Auth::user()->cannot('user-update')) abort(403);
+    { if (Auth::user()->cannot('edit user')) abort(403);
         $user = User::findOrFail($id);
         $roles = Role::orderBy('name', 'asc')->get();
 
@@ -75,7 +75,7 @@ class UsersController extends Controller
         return view('pages.users-edit', ['user' => $user, 'roles' => $roles]);
     }
     public function update(Request $request, $id)
-    { if (Auth::user()->cannot('user-update')) abort(403);
+    { if (Auth::user()->cannot('edit user')) abort(403);
         $user = User::findOrFail($id);
         
         $this->validate($request,[
@@ -106,7 +106,7 @@ class UsersController extends Controller
     
     // Delete
     public function destroy($id)
-    { if (Auth::user()->cannot('user-delete')) abort(403);
+    { if (Auth::user()->cannot('delete user')) abort(403);
         $user = User::findOrFail($id);
      
         $user->delete();
