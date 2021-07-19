@@ -28,6 +28,32 @@
     </div>
 </div>
 @endcan
+@can('create order')
+<div class="modal fade" id="ClaimModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <img class="card-img-top modal-photo">
+                </div>
+                <form method="POST" id="ClaimForm">
+                @csrf
+                    <div class="input-group input-group-sm">
+                        <div class="input-group-append">
+                            <a class="btn btn-light disabled">Masukan jumlah Reward yang ingin di Claim</a>
+                        </div>
+                        <input type="number" class="form-control quantity" value="1" min="1" name="qty">
+                        <input type="text" class="form-control reward d-none" name="reward">
+                        <div class="input-group-append">
+                            <button class="btn btn-success" type="submit">Claim Reward</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endcan
 @endsection
 
 @section('content')
@@ -124,7 +150,7 @@
                             </ul>
                         </div>
                         <div class="card-footer reward-footer">
-                            <a href="#" class="btn btn-sm @if(($point * 100 / $reward->target) < $reward->target) btn-light disabled @else btn-success @endif btn-block m-0">Claim Reward</a>
+                            <a class="btn btn-sm @if($point < $reward->target) btn-light disabled @else btn-success @endif btn-block m-0" data-toggle="modal" data-target="#ClaimModal" data-img="{{ asset('img/rewards/'.$reward->photo) }}" data-uri="{{ route('claims.store',) }}" data-reward="{{ $reward->id }}" data-max="{{ $point/$reward->target }}">Claim Reward</a>    
                         </div>
                         @endcan
                         @can('create user')

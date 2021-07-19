@@ -38,6 +38,12 @@
                         <p>Keranjang @if(count($data['carts']) > 0) <span class="badge badge-primary right">{{ count($data['carts']) }}</span> @endif</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('claims.index') }}" class="nav-link">
+                        <i class="fas fa-gift nav-icon"></i>
+                        <p>My Reward @if(count($data['claims']) > 0) <span class="badge badge-primary right">{{ count($data['claims']) }}</span> @endif</p>
+                    </a>
+                </li>
                 @endcan
                 @can('view order')
                 <li class="nav-item">
@@ -52,6 +58,14 @@
                     <a href="{{ route('users.index') }}" class="nav-link {{ HelperMenu::active('url',['users*']) }}">
                         <i class="fas fa-users nav-icon"></i>
                         <p>User</p>
+                    </a>
+                </li>
+                @endcan
+                @can('create reward')
+                <li class="nav-item">
+                    <a href="{{ route('claims.index') }}" class="nav-link">
+                        <i class="fas fa-gift nav-icon"></i>
+                        <p>Claim @if(count($data['claims']) > 0) <span class="badge badge-primary right">{{ count($data['claims']) }}</span> @endif</p>
                     </a>
                 </li>
                 @endcan

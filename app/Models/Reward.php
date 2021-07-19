@@ -21,4 +21,9 @@ class Reward extends Model
     {
     	return $this->hasMany('App\Models\Leaderboard');
     }
+    
+    public function claim()
+    {
+    	return $this->hasMany('App\Models\Claim');
+    }
 }

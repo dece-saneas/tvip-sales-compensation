@@ -30,3 +30,5 @@ Route::resource('carts','CartsController')->except(['create', 'edit','show']);
 
 Route::get('orders/{type}/{id}', 'InvoicesController@process')->name('orders.process');
 Route::resource('orders','InvoicesController')->except(['edit', 'destroy']);
+Route::resource('claims','ClaimsController')->only(['store', 'index', 'update']);
+

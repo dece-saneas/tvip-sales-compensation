@@ -86,6 +86,24 @@ $(document).ready(function(){
     })
 })
 
+// Modal Claim
+$(document).ready(function(){
+    $('#ClaimModal').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        var button = $(event.relatedTarget)
+        var img = button.data('img')
+        var uri = button.data('uri')
+        var reward = button.data('reward')
+        var max = button.data('max')
+        
+        modal.find('.modal-photo').attr("src", img);
+        modal.find('.reward').attr("value", reward);
+        modal.find('.quantity').attr("max", max);
+
+        $("#ClaimForm").attr("action", uri);
+    })
+})
+
 // Modal Edit Cart
 $(document).ready(function(){
     $('#EditModal').on('show.bs.modal', function (event) {

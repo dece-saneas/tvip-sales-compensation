@@ -58,4 +58,9 @@ class User extends Authenticatable
     {
     	return $this->hasMany('App\Models\Leaderboard');
     }
+    
+    public function claim()
+    {
+    	return $this->hasMany('App\Models\Claim');
+    }
 }
