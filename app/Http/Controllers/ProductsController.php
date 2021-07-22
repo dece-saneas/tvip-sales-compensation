@@ -68,6 +68,43 @@ class ProductsController extends Controller
         
         return redirect()->route('products.index');
     }
+    
+    // Edit
+    public function edit($id)
+    { if (Auth::user()->cannot('edit product')) abort(403);
+        $product = Product::findOrFail($id);
+        
+        return view('pages.products-edit', ['product' => $product]);
+    }
+    public function update(Request $request, $id)
+    { if (Auth::user()->cannot('edit product')) abort(403);
+        $product = Product::findOrFail($id);
+        
+        $this->validate($request,[
+            'brand' => 'required',
+            'variant' => 'required',
+            'price' => 'required',
+        ]);
+     
+        if($request->hasFile('photo')){
+            
+            $this->validate($request,[
+                'photo' => 'required|file|image|mimes:jpeg,png|max:2048',
+            ]);
+            
+            $photo = $request->file('photo');
+            Image::make($photo)->resize(512, 512)->save(public_path('img/products/'.$product->photo));
+        }
+     
+        $product->brand =  $request->brand;
+        $product->variant =  $request->variant;
+        $product->price =  $request->price;
+        $product->save();
+        
+		session()->flash('success', 'Product berhasil di perbarui !');
+		
+        return redirect()->route('products.index');
+    }
 
     // Delete
     public function destroy($id)

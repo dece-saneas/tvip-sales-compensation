@@ -154,9 +154,14 @@
                                         @can('view supply')
 										<a href="{{ route('supplies.create') }}" class="btn btn-sm btn-light @cannot('create supply') disabled @endcannot">Stok<span class="badge @if($product->stock == 0) badge-danger @else badge-primary @endif ml-2 px-1">{{$product->stock}}</span></a>
                                         @endcan
-                                        @can('delete product')
-                                        <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('products.destroy', $product->id) }}"><i class="fas fa-trash"></i></button>
-                                        @endcan
+                                        <div class="btn-group" role="group">
+                                            @can('edit product')
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-light">Edit</a>
+                                            @endcan
+                                            @can('delete product')
+                                            <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#DeleteModal" data-uri="{{ route('products.destroy', $product->id) }}"><i class="fas fa-trash"></i></button>
+                                            @endcan
+                                        </div>
 									</div>
                                 </div>
                             </div>

@@ -22,7 +22,7 @@ Route::prefix('super-admin')->group(function () {
 });
 
 Route::resource('settings','SettingsController')->only(['index', 'update']);
-Route::resource('products','ProductsController')->except(['edit', 'update', 'show']);
+Route::resource('products','ProductsController')->except(['show']);
 Route::resource('products/supplies','SuppliesController')->except(['show']);
 Route::resource('rewards','RewardsController')->except(['index']);
 Route::resource('users','UsersController')->except(['show']);
