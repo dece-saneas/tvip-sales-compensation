@@ -34,7 +34,7 @@ class ClaimsController extends Controller
 
     // Create
     public function store(Request $request)
-    { if (Auth::user()->cannot('create reward')) abort(403);
+    { if (Auth::user()->cannot('create order')) abort(403);
      
         $leaderboard = Leaderboard::where('user_id', Auth::id())->where('reward_id', $request['reward'])->first();
         $reward = Reward::findOrFail($request['reward']);
